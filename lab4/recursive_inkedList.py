@@ -34,11 +34,11 @@ class LinkedList:
           self._printInOrder(nextNode)
 
   def printInReverseOrder(self):
-
+      #Requires an additional argument or a helper function
 
 
   def isIn(self, element):
-
+      #Same as above.
 
 
   def isInTimes(self, element):

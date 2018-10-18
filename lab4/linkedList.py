@@ -1,3 +1,12 @@
+#     Recursive Linked List Library
+#       Author: Jacob Lindow
+#            18 Oct 18
+#
+#              SY301 
+#     Dr. Travis Mayberry, USNA
+#
+
+
 class Node:
     def __init__(self, data):
         self.data = data
@@ -154,32 +163,36 @@ class linkedList:
         self.__remove(i, node, prev, currentIndex)
 
     ############################################################################
-    # Test Code #
+    
+# Test Code #
 
-myLL = linkedList()
-myLL.add2Front(1)
-myLL.add2Front(2)
-myLL.add2Front(4)
-myLL.printInOrder()
-myLL.printInReverseOrder()
-print("\n")
-myLL.addBefore(2, 3)
-myLL.printInOrder()
+#myLL = linkedList()
+#myLL.add2Front(1)
+#myLL.add2Front(2)
+#myLL.add2Front(4)
+#print("List: \n")
+#myLL.printInOrder()
+#print("Reverse: \n")
+#myLL.printInReverseOrder()
+#print("\n")
+#myLL.addBefore(2, 3)
+#print("list: ")
+#myLL.printInOrder()
 
-print(myLL.isIn(3))
-print(myLL.isIn(1))
-print(myLL.isIn(5))
-myLL.addBefore(7, 0)
-myLL.add2Front(4)
-print(myLL.isInTimes(4))
-print(myLL.isInTimes(0))
-print("List: \n") 
-myLL.printInOrder()
-print("\n") 
-myLL.remove(0)
-myLL.remove(3)
-myLL.printInOrder()
-print("\n") 
-print(myLL.get(0))
-print(myLL.get(2))
-
+#print(myLL.isIn(3))
+#print(myLL.isIn(1))
+#print(myLL.isIn(5))
+#myLL.addBefore(7, 0)
+#myLL.add2Front(4)
+#print(myLL.isInTimes(4))
+#print(myLL.isInTimes(0))
+#print("List: \n") 
+#myLL.printInOrder()
+#print("\n") 
+#myLL.remove(0)
+#myLL.remove(3)
+#print("List: \n")
+#myLL.printInOrder()
+#print("\n") 
+#print(myLL.get(0))
+#print(myLL.get(2))

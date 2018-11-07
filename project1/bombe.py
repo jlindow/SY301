@@ -9,13 +9,22 @@
 
 import sys
 
-def attempt():
+def attempt(rotor1, rotor2, rotor3):
 
-    plaintext = str(enigma.decrypt(message))
+    e = enigma(rotor1, rotor2, rotor3)
 
-    if ( (plaintext.find("ONE") != -1) and (plaintext.find("MINE") != -1) ): 
-    
-        return plaintext
+    #print("Rotor1: " + str(rotor1.rotor_list)) 
+    #print("Rotor2: " + str(rotor2.rotor_list)) 
+    #print("Rotor3: " + str(rotor3.rotor_list) + "\n") 
+
+    plaintext = str(e.decrypt(message))
+
+    if ( "MINE" in plaintext and "WALKING" in plaintext): 
+ 
+        print("\n MATCH FOUND: ") 
+        print(plaintext)
+        sys.exit(0)
+        return True
 
     else: 
         return False
@@ -25,19 +34,20 @@ class enigma:
 
     def __init__ (self, rotor1, rotor2, rotor3):
 
-        self.rotor1 = rotor(rotor1) 
-        self.rotor2 = rotor(rotor2)
-        self.rotor3 = rotor(rotor3)
+        self.r1 = rotor(rotor1)
+        self.r2 = rotor(rotor2)
+        self.r3 = rotor(rotor3)
 
         return
 
     def decrypt (self, message): 
+
+        #print("Rotor2 Before Decrypt:" + str(rotor2.rotor_list))
+        #print("Rotor3 Before Decrypt: " + str(rotor3.rotor_list))
+        #print("\n")
+
         r2_count = 1
         r3_count = 1
-
-        rotor1_original = self.rotor1 
-        rotor2_original = self.rotor2
-        rotor3_original = self.rotor3
 
         messageList = list(message) 
         decryptedMessage = []
@@ -46,31 +56,29 @@ class enigma:
 
             letter = messageList[i]
 
-            rotor3_letter = self.rotor3.decryptLetter(letter) 
-            self.rotor3.click() 
+            rotor3_letter = self.r3.decryptLetter(letter) 
+            self.r3.click() 
             r3_count += 1 
 
-            rotor2_letter = self.rotor2.decryptLetter(rotor3_letter) 
+            rotor2_letter = self.r2.decryptLetter(rotor3_letter) 
             if ( (r3_count % 27) == 0):
-                self.rotor2.click()
+                self.r2.click()
                 r2_count += 1
 
-            rotor1_letter = self.rotor1.decryptLetter(rotor2_letter)
+            rotor1_letter = self.r1.decryptLetter(rotor2_letter)
             if ( (r2_count % 27) == 0): 
-                self.rotor1.click()
+                self.r1.click()
 
             decryptedMessage.append(rotor1_letter)
 
         decryptedMessage = ''.join(decryptedMessage)
 
-        #reset rotors to the way they were when passed
-        self.rotor1 = rotor1_original
-        self.rotor2 = rotor2_original
-        self.rotor3 = rotor3_original
 
-        return decryptedMessage
+        #print("Rotor2 AFTER: " + str(rotor2.rotor_list))
+        #print("Rotor3 AFTER: "  + str(rotor3.rotor_list))
+        #print("\n")
 
-
+        return str(decryptedMessage)
 class rotor: 
 
     def __init__ (self, string):
@@ -90,58 +98,89 @@ class rotor:
         else: 
             return False 
 
+def shift(string): 
+    stringList = list(string)
+    shiftedList = stringList[1:] + stringList[:1]
+    shiftedString = ''.join(shiftedList)
+    return shiftedString
 
 
 #get rotors and message from command line
 message         = sys.argv[1] 
-rotor1_initial  = sys.argv[2] 
-rotor2_initial  = sys.argv[3] 
-rotor3_initial  = sys.argv[4]
+rotor1          = sys.argv[2]
+rotor2          = sys.argv[3]
+rotor3          = sys.argv[4]
 
-#create a machine
-enigma = enigma(rotor1_initial, rotor2_initial, rotor3_initial)
-
-rot3_count = 1
-rot2_count = 1
-rot1_count = 1
+count = 0
+swapCount = 0
 
 ################################################################################
 ################################################################################
-
 
 while True:
 
     #attempt to decrypt
-    result = attempt()
+    print("Rotor1: " + rotor1)
+    print("Rotor2: " + rotor2)
+    print("Rotor3: " + rotor3 + "\n")
+
+    result = attempt(rotor1, rotor2, rotor3)
+    count += 1    
+
+    if (count > 105456): 
+        print("Mission Failed.")
+        break
 
     if (result == False): 
         #rotor3 clicks everytime
-        enigma.rotor3.click()
-        rot3_count += 1
+        rotor3 = shift(rotor3)
+        print("SHIFT3, " + str(count))
 
         #rotor2 clicks every 26 times    
-        if ( (rot3_count % 27) == 0):
-            enigma.rotor2.click()
-            rot2_count += 1
+        if ( (count) % 26 == 0):
+            rotor2 = shift(rotor2)
+            print("SHIFT2, " + str(count))
 
         #rotor1 clicks every 26 times rotor2 does
-        if ( (rot2_count % 27) == 0): 
-            enigma.rotor1.click()
-            rot1_count += 1
-
+        if ( (count) % 676 == 0):
+            rotor1 = shift(rotor1)
+            print("SHIFT1, " + str(count))
+    
         #after rotor1 clicks 26 times, swap rotors.
-        if ( (rot1_count % 27) == 0): 
-                #swap order of rotors
-                tmp1 = enigma.rotor1
-                tmp2 = enigma.rotor2 
-                tmp3 = enigma.rotor3
+        if ( (count) % 17576 == 0):
+            if (swapCount == 0): #ACB
+                tmp = rotor2
+                rotor2 = rotor3
+                rotor3 = tmp
+                print("Swap 1")
+    
+            if (swapCount == 1): #BCA
+                tmp = rotor3
+                rotor3 = rotor1 
+                rotor1 = tmp
+                print("Swap 2")
 
-                enigma.rotor1 = tmp3
-                enigma.rotor2 = tmp1 
-                enigma.rotor3 = tmp2  
-
+            if (swapCount == 2): #BAC
+                tmp = rotor2
+                rotor2 = rotor3
+                rotor3 = tmp
+                print("Swap 3")
+    
+            if (swapCount == 3): #CAB
+                tmp = rotor1 
+                rotor1 = rotor3 
+                rotor3 = tmp
+                print("Swap 4")
+    
+            if (swapCount == 4): #CBA
+                tmp = rotor2 
+                rotor2 = rotor3
+                rotor3 = tmp
+                print("Final swap.")
+            
+            swapCount += 1
     else: 
-        print("\n" + result + "\n")
+        print("\n" + str(result) + "\n")
         break
 
 ################################################################################    

@@ -6,6 +6,10 @@
 #
 #        14 Nov 18
 #
+# sources used: https://stackoverflow.com/questions/15214852/depth-of-a-tree-python
+#               http://opendatastructures.org/ods-python/7_2_Treap_Randomized_Binary.html
+#               http://www.grantjenks.com/wiki/random/python_treap_implementation
+#               https://www.geeksforgeeks.org/treap-set-2-implementation-of-search-insert-and-delete/
 
 import random
 

@@ -1,11 +1,9 @@
-#
-#
-#
-#
-#
-#
-#
-#
+#      .dot file reader
+#   Author: Jacob A. Lindow
+#   
+#       SY301 - 9991
+#     Dr. Travis Mayberry
+#        1 Dec 2018
 
 
 class Vertex:
@@ -171,12 +169,3 @@ class Graph:
                     nameList.append(self.vertices[i].adjacentList[j].name)
 
                 return nameList
-
-
-
-myGraph = Graph("newfile.txt")
-print(myGraph.isAdjacent('A', 'B')) #TRUE
-print(myGraph.isAdjacent('F', 'B')) #FALSE
-
-
-print(myGraph)

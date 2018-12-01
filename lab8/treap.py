@@ -70,24 +70,32 @@ class TreapSet:
                 self.__add(currentNode.left, newNode)
 
     def organize(self, node):
+        #rotate until the priority of the current node is greatest
         while (node.parent and node.parent.priority) < node.priority:
             self.rotate(node)
     
-    def rotate(self, node): 
+    def rotate(self, node):
+        
+        #get parent of current node
         parent = node.parent
-
         if parent == None: 
             return
     
-        #clockwise rotation    
+        #clockwise rotation
+        #if current node is to left of the parent
         if parent.left == node: 
+            #shift parent node down to the right of current node
             node.right = parent 
+            #shift current node's kids to under parent
             parent.left = node.right
 
+            #from line 89, if parent.left exists, make sure it knows who its parents are
             if parent.left: 
                 parent.left.parent = parent
 
         #counter-clockwise rotation
+        #current node is to the right of parent 
+        #same as above, just opposite
         else:
             node.left = parent
             parent.right = node.left
@@ -95,16 +103,21 @@ class TreapSet:
             if parent.right:
                 parent.right.parent = parent
 
+        #reassign parents for nodes that moved       
         grandparent = parent.parent
         node.parent = grandparent 
         parent.parent = node
 
-        if grandparent != None: 
+        #rotated node is NOT a child of root node.
+        if grandparent != None:
+            #if we did a clockwise rotation
             if grandparent.right == parent:
                 grandparent.right = node
+            #if we did a counter clockwise rotation
             else:
                 grandparent.left = node
         else:
+            #means we rotated a child of the root node, so it is now the new root
             self.root = node
 
     def __contains__(self, k): 

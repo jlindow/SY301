@@ -1,3 +1,11 @@
+#     Directed Graph Hopper
+#    Author: Jacob A. Lindow
+#
+#       SY301 - 9991
+#    Dr. Travis Mayberry
+#
+#       2 Dec 2018 
+
 class Vertex:
 
     def __init__(self, vertex, adjacentList):
@@ -160,7 +168,7 @@ class Graph:
         return myList
 
 
-myGraph = Graph("file.txt")
-print(myGraph.hopper("D", 2))
+myGraph = Graph(#FILENAME)
+print(myGraph.hopper(#ELEMENT, #HOPS))
 
 

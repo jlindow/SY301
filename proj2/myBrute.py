@@ -8,7 +8,7 @@
 ###################################################
 
 #Usage: $ python3 myBrute.py shorthashedRockyou.txt shadow.txt output.txt
-
+#Expected Runtime: sys = 0.067s
 
 import sys 
 

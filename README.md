@@ -1,2 +1,7 @@
-# SY301
-Data Structures, OOP, &amp; Algorithims
+# Title: Semester Study Abroad
+#        Remote Learning Course
+#
+# Institution: US Naval Academy
+# Instructor:  Dr. Travis Mayberry
+#
+# Student:    MIDN Jacob A. Lindow
